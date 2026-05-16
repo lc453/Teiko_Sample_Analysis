@@ -18,7 +18,7 @@ def main() -> None:
     button_frame = ttk.Frame(root, height=50, width=600)
     plot_frame = ttk.Frame(root, height=400, width=600)
     report_frame = ttk.Frame(root, height=400, width=600)
-    summary_frame = ttk.Frame(root, height=400, width=600)
+    summary_frame = ttk.Frame(root, height=800, width=1200)
     
     plot_image = tk.Label()
 
@@ -145,6 +145,7 @@ def main() -> None:
         root.geometry("1200x800+350+30")
 
         cursor = connection.cursor()
+
         data = cursor.execute(f"SELECT * FROM {summary_table}")
         column_names = [description[0] for description in cursor.description]
         display_summary = ttk.Treeview(summary_frame,columns=column_names, show="headings")
@@ -154,8 +155,8 @@ def main() -> None:
         for row in data.fetchall():
             rounded = tuple([f"{round(x,2)}%" if isinstance(x,float) else x for x in row])
             display_summary.insert("", "end", values=rounded)
-        display_summary.pack()
-        summary_frame.pack()
+        display_summary.pack(fill="both", expand=True)
+        summary_frame.pack(fill="both", expand=True)
 
     #endregion
     button_frame.grid_columnconfigure(0, weight=1, uniform="un1")
